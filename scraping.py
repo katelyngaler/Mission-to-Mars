@@ -4,10 +4,29 @@ from splinter import Browser
 from bs4 import BeautifulSoup as soup
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
+import datetime as dt
 
-# Set up splinter
-executable_path = {'executable_path': ChromeDriverManager().install()}
-browser = Browser('chrome', **executable_path, headless=False)
+
+
+def scrape_all():
+    
+    # Initiate headless driver for deployment
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=True)
+    
+    news_title, news_paragraph = mars_news(browser)
+    
+    data = {
+      "news_title": news_title,
+      "news_paragraph": news_paragraph,
+      "featured_image": featured_image(browser),
+      "facts": mars_facts(),
+      "last_modified": dt.datetime.now()
+    }
+    # Stop webdriver and return data
+    browser.quit()
+    return data
+
 
 def mars_news(browser):
     # Visit the mars nasa news site
@@ -23,8 +42,7 @@ def mars_news(browser):
     
     try:
         slide_elem = news_soup.select_one('div.list_text')
-        slide_elem.find('div', class_='content_title')
-
+        
         # Use the parent element to find the first `a` tag and save it as `news_title`
         news_title = slide_elem.find('div', class_='content_title').get_text()
         # Use the parent element to find the paragraph text
@@ -56,7 +74,7 @@ def featured_image(browser):
         img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
 
     except AttributeError:
-        return none
+        return None
    
     # Use the base URL to create an absolute URL
     img_url = f'https://spaceimages-mars.com/{img_url_rel}'
@@ -75,8 +93,9 @@ def mars_facts():
     df.columns=['description', 'Mars', 'Earth']
     df.set_index('description', inplace=True)
     
-    return df.to_html()
+    return df.to_html(classes="table table-striped")
 
 
-browser.quit()
-
+if __name__ == "__main__":
+    # If running as script, print scraped data
+    print(scrape_all())
