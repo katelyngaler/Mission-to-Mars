@@ -15,7 +15,7 @@ def scrape_all():
     browser = Browser('chrome', **executable_path, headless=True)
     
     news_title, news_paragraph = mars_news(browser)
-    hemisphere_image_urls = mars_hemi_images(browser)
+    hemisphere_image_urls = mars_hemi_images()
     
     data = {
       "news_title": news_title,
@@ -97,8 +97,10 @@ def mars_facts():
     
     return df.to_html(classes="table table-striped")
 
-def mars_hemi_images(browser):
+def mars_hemi_images():
     # 1. Use browser to visit the URL 
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=True)
     url = 'https://marshemispheres.com/'
     browser.visit(url)
     # 2. Create a list to hold the images and titles.
@@ -129,7 +131,7 @@ def mars_hemi_images(browser):
 
     return hemisphere_image_urls
 
-
+#hemisphere_image_urls = mars_hemi_images()
 
 if __name__ == "__main__":
     # If running as script, print scraped data
