@@ -3,16 +3,18 @@ The purpose of this activity is to learn webscraping. This is achieved using bea
 
 Deliverable 1:
 create code to scrape data from multiple sites about Mars: 
+
 Data collected in modules:
-* Latest news, 
-* a recent image, 
-* a facts table,
+* Latest news
+* A recent image
+* A facts table
+
 Data collected in challenge:
 * 4 images of the hemispheres - links and titles all put into a list of dictionaries
 
 Deliverable 2:
-* update scraping.py file created in the modules to include the code to scrape for the 4 hemisphere images
-* update app.py file for scrapinf of the 4 hemisphere images. The app.py code using Flask and Mongo to  gather, store, and display the data about Mars.
+* Update scraping.py file created in the modules to include the code to scrape for the 4 hemisphere images
+* Update app.py file for scrapinf of the 4 hemisphere images. The app.py code using Flask and Mongo to  gather, store, and display the data about Mars.
 * Update the html code in the index.html file so that it parses through the list of dictionaries, to display the title and images of the 4 hemisphere images.
 
 Deliverable 3:
